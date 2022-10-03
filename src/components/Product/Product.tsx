@@ -18,8 +18,12 @@ import {GlobalContext} from "../../libs/context";
 import {ReducerTypes} from "../../libs/reducer";
 import {formatterCurrency} from "../../libs/utils";
 
-export const Product: FC<ProductsTypes> = (props) => {
-  const {id, name, description, image, price, quantity, cartQuantity} = props
+type ProductProps = {
+  onOpen: () => void
+} & ProductsTypes
+
+export const Product: FC<ProductProps> = (props) => {
+  const {id, name, description, image, price, quantity, onOpen} = props
   const [, dispatch] = useContext(GlobalContext);
 
   const handleChange = (valueString: string, valueAsNumber: number) => {
@@ -30,9 +34,10 @@ export const Product: FC<ProductsTypes> = (props) => {
   }
   const handleClick = () => {
     dispatch({
-      type: ReducerTypes.SET_CARTQUANTITY,
+      type: ReducerTypes.SET_CARTQUANTITY_FOR_QUANTITY,
       payload: {id}
     })
+    onOpen();
   }
 
   const mountPrice = useMemo(() => {
