@@ -8,6 +8,7 @@ import {
   DrawerCloseButton, Box, Button, Text, Flex
 } from '@chakra-ui/react'
 import {FC, useContext, useMemo, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {GlobalContext} from "../../libs/context";
 import {CartItem} from "../CartItem";
 import {formatterCurrency} from "../../libs/utils";
@@ -21,6 +22,7 @@ type CartSummaryProps = {
 export const CartSummary: FC<CartSummaryProps> = (props) => {
   const {isOpen, onClose} = props
   const [state] = useContext(GlobalContext);
+  const navigate = useNavigate();
   const [disCountPrice, setDisCountPrice] = useState(0);
 
   const products = useMemo(() => state.products.filter(product => product.cartQuantity > 0), [state]);
@@ -29,6 +31,10 @@ export const CartSummary: FC<CartSummaryProps> = (props) => {
       return total += product.cartQuantity * product.price
     }, -disCountPrice);
   }, [products, disCountPrice])
+
+  const handleClickRoute = () => {
+    navigate("/cart")
+  }
 
   return (
     <Drawer
@@ -45,18 +51,16 @@ export const CartSummary: FC<CartSummaryProps> = (props) => {
           <DrawerHeader flex="1" fontWeight="500" lineHeight="20px" fontSize="18px">Cart summary</DrawerHeader>
           <DrawerCloseButton position="revert"/>
         </Box>
-
         <DrawerBody p="0">
           {products.map(product => <Box
             key={product.id} borderBottom="1px solid #e3e6e8"><Box p="32px"><CartItem {...product} /></Box></Box>)}
-          <Box borderBottom="1px solid #e3e6e8"><Box p="32px"><PromoCode
-            setDiscountPrice={setDisCountPrice}/></Box></Box>
+          {products.length > 0 && <Box borderBottom="1px solid #e3e6e8"><Box p="32px"><PromoCode
+            setDiscountPrice={setDisCountPrice}/></Box></Box>}
         </DrawerBody>
-
         <DrawerFooter display="revert">
           <Flex w="100%" justifyContent="space-between" fontWeight="500" lineHeight="20px">
             <Text>Discount price</Text>
-            <Text>-${disCountPrice}</Text>
+            <Text>- ${disCountPrice}</Text>
           </Flex>
           <Flex w="100%" marginTop="10px" justifyContent="space-between" fontWeight="500" lineHeight="20px">
             <Text>Total</Text>
@@ -73,7 +77,7 @@ export const CartSummary: FC<CartSummaryProps> = (props) => {
               color: "#0d59f2",
               textDecoration: "revert"
             }}
-                    borderBottom="1px solid">View detailed cart</Button>
+                    borderBottom="1px solid" onClick={handleClickRoute}>View detailed cart</Button>
           </Box>
         </DrawerFooter>
       </DrawerContent>

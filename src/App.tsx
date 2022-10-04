@@ -1,26 +1,30 @@
 import React, {useReducer} from "react"
 import {
-  Box,
   ChakraProvider,
-  theme, useDisclosure
+  theme
 } from "@chakra-ui/react"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 import {GlobalContext} from "./libs/context";
 import {initialState, reducers} from "./libs/reducer";
-import {Product} from "./components/Product";
-import {CartSummary} from "./components/CartSummary";
-
+import Home from "./pages/home"
+import Cart from "./pages/cart"
 
 export const App = () => {
   const [state, dispatch] = useReducer(reducers, initialState);
-  const {isOpen, onOpen, onClose} = useDisclosure()
+
   return (
     <ChakraProvider theme={theme}>
       <GlobalContext.Provider value={[state, dispatch]}>
-        <Box display="flex" flexDir="column" justifyContent="center" alignItems="center" marginTop="24px"
-             p="8px 32px 8px 24px">
-          {state.products.map(product => <Product key={product.id} {...product} onOpen={onOpen}/>)}
-          <CartSummary isOpen={isOpen} onClose={onClose}/>
-        </Box>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home/>}></Route>
+            <Route path="/cart" element={<Cart/>}></Route>
+          </Routes>
+        </Router>
       </GlobalContext.Provider>
     </ChakraProvider>
   )
