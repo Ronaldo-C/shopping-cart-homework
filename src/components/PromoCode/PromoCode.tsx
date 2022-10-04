@@ -42,7 +42,7 @@ export const PromoCode: FC<PromoCodeProps> = (props) => {
 
   useEffect(() => {
     setDiscountPrice(promoCount);
-  }, [promoCount])
+  }, [promoCount, setDiscountPrice])
 
   return (
     <Box w="100%" mb="0">
