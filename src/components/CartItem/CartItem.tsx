@@ -40,7 +40,7 @@ export const CartItem: FC<ProductsTypes> = (props) => {
   }, [cartQuantity, price])
 
   return (
-    <Box p="32px">
+    <>
       <Flex alignItems="center" justifyContent="space-between">
         <Image minW="auto" h="32px" w="auto" src={image}/>
         <Text fontSize="18px" flex="1" textAlign="left" paddingLeft="8px" fontWeight="600">{name}</Text>
@@ -63,7 +63,7 @@ export const CartItem: FC<ProductsTypes> = (props) => {
         <Text fontSize="12px" color="#2e3338" mb="8px">Quantity</Text>
         <Flex justifyContent="space-between" alignItems="center">
           <NumberInput value={cartQuantity} min={0} onChange={handleChange}>
-            <NumberInputField readOnly={true} />
+            <NumberInputField readOnly={true}/>
             <NumberInputStepper>
               <NumberIncrementStepper/>
               <NumberDecrementStepper/>
@@ -72,6 +72,6 @@ export const CartItem: FC<ProductsTypes> = (props) => {
           <Text fontWeight="500" lineHeight="20px">{formatterCurrency.format(mountPrice)}</Text>
         </Flex>
       </Box>
-    </Box>
+    </>
   )
 }
