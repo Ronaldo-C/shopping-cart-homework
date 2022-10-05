@@ -4,7 +4,7 @@ import {Product} from "../../components/Product";
 import {CartSummary} from "../../components/CartSummary";
 import {GlobalContext} from "../../libs/context";
 
-export default () => {
+const Home = () => {
   const [state] = useContext(GlobalContext);
   const {isOpen, onOpen, onClose} = useDisclosure()
   return (
@@ -15,3 +15,5 @@ export default () => {
     </Box>
   )
 }
+
+export default Home;

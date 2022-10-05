@@ -5,19 +5,15 @@ import {GlobalContext} from "../../libs/context";
 import {CartItem} from "../../components/CartItem";
 import {PromoCode} from "../../components/PromoCode";
 import {formatterCurrency} from "../../libs/utils";
+import {useTotalPrice} from "../../libs/hooks";
 
-export default () => {
+const Cart = () => {
   const [state] = useContext(GlobalContext);
   const navigate = useNavigate();
   const [disCountPrice, setDisCountPrice] = useState(0);
 
   const products = useMemo(() => state.products.filter(product => product.cartQuantity > 0), [state]);
-  const mountPrice = useMemo(() => {
-    return products.reduce((total: number, product) => {
-      return total += product.cartQuantity * product.price
-    }, -disCountPrice);
-  }, [products, disCountPrice])
-
+  const totalPrice = useTotalPrice(products, disCountPrice);
 
   const handleClickRoute = () => {
     navigate("/")
@@ -43,7 +39,7 @@ export default () => {
             </Flex>
             <Flex w="100%" marginTop="10px" justifyContent="space-between" fontWeight="500" lineHeight="20px">
               <Text>Total</Text>
-              <Text>{formatterCurrency.format(mountPrice)}</Text>
+              <Text>{formatterCurrency.format(totalPrice)}</Text>
             </Flex>
           </Box>
         </Flex></Box>}
@@ -55,3 +51,5 @@ export default () => {
     </Box>
   )
 }
+
+export default Cart;

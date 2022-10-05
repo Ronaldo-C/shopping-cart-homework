@@ -1,7 +1,7 @@
 {
   "name": "shopping-cart-chakra",
   "version": "0.1.0",
-  "homepage": "https://ronaldo-c.github.io/shopping-cart-homework",
+  "homepage": "https://ronaldo-c.github.io/shopping-cart-homework/",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.11",
@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "pnpm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

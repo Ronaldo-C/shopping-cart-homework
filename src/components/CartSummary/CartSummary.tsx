@@ -13,6 +13,7 @@ import {GlobalContext} from "../../libs/context";
 import {CartItem} from "../CartItem";
 import {formatterCurrency} from "../../libs/utils";
 import {PromoCode} from "../PromoCode";
+import {useTotalPrice} from "../../libs/hooks";
 
 type CartSummaryProps = {
   isOpen: boolean,
@@ -26,11 +27,7 @@ export const CartSummary: FC<CartSummaryProps> = (props) => {
   const [disCountPrice, setDisCountPrice] = useState(0);
 
   const products = useMemo(() => state.products.filter(product => product.cartQuantity > 0), [state]);
-  const mountPrice = useMemo(() => {
-    return products.reduce((total: number, product) => {
-      return total += product.cartQuantity * product.price
-    }, -disCountPrice);
-  }, [products, disCountPrice])
+  const totalPrice = useTotalPrice(products, disCountPrice);
 
   const handleClickRoute = () => {
     navigate("/cart")
@@ -64,7 +61,7 @@ export const CartSummary: FC<CartSummaryProps> = (props) => {
           </Flex>
           <Flex w="100%" marginTop="10px" justifyContent="space-between" fontWeight="500" lineHeight="20px">
             <Text>Total</Text>
-            <Text>{formatterCurrency.format(mountPrice)}</Text>
+            <Text>{formatterCurrency.format(totalPrice)}</Text>
           </Flex>
           <Box textAlign="center">
             <Button marginTop="16px" color="#fff" bgColor="#1a4db3" w="100%" h="54px" _hover={{
